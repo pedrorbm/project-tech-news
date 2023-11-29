@@ -8,9 +8,7 @@ def fetch(url):
 
     try:
         response = requests.get(
-            url,
-            headers={"user-agent": "Fake user-agent"},
-            timeout=3
+            url, headers={"user-agent": "Fake user-agent"}, timeout=3
         )
 
         if response.status_code == 200:
@@ -39,10 +37,34 @@ def scrape_next_page_link(html_content):
     return result
 
 
-# Requisito 4
 def scrape_news(html_content):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    selector = Selector(text=html_content)
+
+    url = selector.css("link[rel='canonical']::attr(href)").get()
+    title = selector.css(".entry-title::text").get().strip()
+    timestamp = selector.css(".meta-date ::text").get()
+    writer = selector.css("span.author a::text").get().strip()
+    reading_time = selector.css(".meta-reading-time ::text").get()[:2]
+    summary = "".join(
+        selector.css(".entry-content > p:first-of-type *::text").getall()
+    ).strip()
+    category = selector.css(".label ::text").get()
+
+    result = {
+        "url": url,
+        "title": title,
+        "timestamp": timestamp,
+        "writer": writer,
+        "reading_time": int(reading_time),
+        "summary": summary,
+        "category": category,
+    }
+
+    return result
+
+
+# html = fetch("https://blog.betrybe.com/tecnologia/modelo-as-a-service/")
+# print(scrape_news(html))
 
 
 # Requisito 5
