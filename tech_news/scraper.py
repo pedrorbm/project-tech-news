@@ -1,6 +1,7 @@
 import requests
 import time
 from parsel import Selector
+from tech_news.database import create_news
 
 
 def fetch(url):
@@ -8,7 +9,9 @@ def fetch(url):
 
     try:
         response = requests.get(
-            url, headers={"user-agent": "Fake user-agent"}, timeout=3
+            url,
+            headers={"user-agent": "Fake user-agent"},
+            timeout=3
         )
 
         if response.status_code == 200:
@@ -67,7 +70,29 @@ def scrape_news(html_content):
 # print(scrape_news(html))
 
 
-# Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    try:
+        MAIN_URL = "https://blog.betrybe.com/"
+        cards = scrape_updates(MAIN_URL)
+        next = scrape_next_page_link(MAIN_URL)
+        data = []
+
+        while len(data) < amount:
+            cards
+            scrape_updates(MAIN_URL)
+            data.extend(scrape_updates(fetch(MAIN_URL)))
+            next
+            scrape_next_page_link(MAIN_URL)
+            MAIN_URL = scrape_next_page_link(fetch(MAIN_URL))
+
+        scrape_next_page_link(MAIN_URL)
+        result = [scrape_news(fetch(card)) for card in data[:amount]]
+        scrape_updates(MAIN_URL)
+        cards
+        next
+
+        create_news(result)
+
+        return result
+    except requests.Timeout:
+        return None
