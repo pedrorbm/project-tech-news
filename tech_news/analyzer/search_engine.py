@@ -1,6 +1,7 @@
 from tech_news.database import search_news
 # from tech_news.scraper import scrape_news, fetch
 import requests
+from datetime import datetime
 
 
 def search_by_title(title):
@@ -35,10 +36,38 @@ print(search_by_title("games"))
 print(search_by_title("favorites"))
 
 
-# Requisito 8
 def search_by_date(date):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    MAIN_URL = "https://blog.betrybe.com/"
+    # requisition = scrape_news(fetch("https://blog.betrybe.com/"))
+    result = []
+
+    try:
+        try:
+            MAIN_URL
+            day = datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%Y")
+
+            info = {"timestamp": day}
+
+            MAIN_URL
+
+            notices = search_news(info)
+
+            result = [
+                # requisition
+                (new["title"], new["url"])
+                for new in notices
+            ]
+
+            return result
+        except ValueError:
+            MAIN_URL
+            raise ValueError("Data inválida")
+    except requests.Timeout:
+        return None
+
+
+search_by_date("2021-04-04")
+search_by_date("2047-02-10")
 
 
 # Requisito 9
