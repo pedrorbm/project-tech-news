@@ -70,7 +70,33 @@ search_by_date("2021-04-04")
 search_by_date("2047-02-10")
 
 
-# Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    try:
+        MAIN_URL = "https://blog.betrybe.com/"
+        notices = search_news(
+            {
+                "category":
+                    {"$regex": category, "$options": "i"}
+            }
+        )
+        result = []
+
+        for notice in notices:
+            MAIN_URL
+
+            result.append(
+                (
+                    notice["title"],
+                    notice["url"]
+                )
+            )
+
+        MAIN_URL
+
+        return result
+    except requests.Timeout:
+        return None
+
+
+print(search_by_category("Ferramentas"))
+print(search_by_category("pedro roberto"))
