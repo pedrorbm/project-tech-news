@@ -1,7 +1,38 @@
-# Requisito 7
+from tech_news.database import search_news
+# from tech_news.scraper import scrape_news, fetch
+import requests
+
+
 def search_by_title(title):
-    """Seu código deve vir aqui"""
-    raise NotImplementedError
+    MAIN_URL = "https://blog.betrybe.com/"
+    result = []
+    # requisition = scrape_news(fetch("https://blog.betrybe.com/"))
+    try:
+        notices = search_news({
+            "title":
+            {
+                "$regex": title,
+                "$options": "i"
+            }
+        })
+        # requisition
+
+        for notice in notices:
+            MAIN_URL
+            # requisition
+            result.append((notice["title"], notice["url"]))
+
+        # requisition["title"]
+        MAIN_URL
+    except requests.Timeout:
+        return None
+
+    return result
+
+
+print(search_by_title("Algoritmos"))
+print(search_by_title("games"))
+print(search_by_title("favorites"))
 
 
 # Requisito 8
